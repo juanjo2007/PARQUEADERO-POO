@@ -31,7 +31,7 @@ class Menu:
             print("**********************************************************")
             print("Error - El propietario no fue adicionado. Verifique los datos.")
             print("**********************************************************")
-        input("\nPresione ENTER para continuar...")
+        input()
 
     # >>> Metodo Listar Propietarios ==============================================================================  
     def listar_propietario(self):
@@ -47,7 +47,7 @@ class Menu:
             print("Telefono_propietario: %s" % (propietario.telefono_propietario))
             print("Correo_propietario: %s" % (propietario.correo_propietario))
             print("************************************************")
-        input("\nPresione ENTER para continuar...")
+        input()
 
     # >>> Metodo Visualizar Propietario ==============================================================================  
     def visualizar_propietario(self):
@@ -62,7 +62,7 @@ class Menu:
             propietario.visualizar_propietario()               # <-- usa el método de la clase Propietario
         else:
             print("Error - El propietario no existe.")
-        input("\nPresione ENTER para continuar...")
+        input()
 
 
     def modificar_propietario(self):
@@ -84,7 +84,7 @@ class Menu:
                 print("Error - No se pudo modificar el propietario (validación fallida).")
         else:
             print("Error - El propietario no existe.")
-        input("\nPresione ENTER para continuar...")
+        input()
 
 
     def eliminar_propietario(self):
@@ -97,7 +97,7 @@ class Menu:
             print("Propietario eliminado con éxito.")
         else:
             print("Error - El propietario no existe.")
-        input("\nPresione ENTER para continuar...")
+        input()
     # >>> Registrar Vehículo =====================================================================
     def registrar_vehiculo(self):
         system("cls")
@@ -120,7 +120,7 @@ class Menu:
                 print("Vehículo registrado con éxito.")
             else:
                 print("Error: No se pudo registrar el vehículo.")
-        input("\nPresione ENTER para continuar...")
+        input()
 
 
     # >>> Listar Vehículos =====================================================================
@@ -130,7 +130,7 @@ class Menu:
         print("**************** LISTAR VEHÍCULOS ***************")
         print("*************************************************")
         self.parqueadero.listar_vehiculos()
-        input("\nPresione ENTER para continuar...")
+        input()
 
 
     # >>> Visualizar Vehículo =====================================================================
@@ -141,7 +141,7 @@ class Menu:
         print("*************************************************")
         placa = input("Ingrese la placa del vehículo: ")
         self.parqueadero.visualizar_vehiculo(placa)
-        input("\nPresione ENTER para continuar...")
+        input()
 
 
     # >>> Modificar Vehículo =====================================================================
@@ -160,7 +160,7 @@ class Menu:
             print("Vehículo modificado con éxito.")
         else:
             print("Error: No se pudo modificar el vehículo.")
-        input("\nPresione ENTER para continuar...")
+        input()
 
 
     # >>> Eliminar Vehículo =====================================================================
@@ -174,7 +174,7 @@ class Menu:
             print("Vehículo eliminado con éxito.")
         else:
             print("Error: No se encontró el vehículo.")
-        input("\nPresione ENTER para continuar...")
+        input()
     # >>> Registrar Parqueo (Ingreso o Salida) =====================================================
     def registrar_parqueo(self):
         system("cls")
@@ -200,14 +200,14 @@ class Menu:
                 id_propietario = vehiculo.id_propietario
                 nombre_propietario = vehiculo.nombre_propietario
 
-                # ✅ Crear objeto Parqueo
+                # Crear objeto Parqueo
                 nuevo_parqueo = Parqueo(
                     id_parqueo, fecha, placa, vehiculo.marca,
                     vehiculo.color, id_propietario,
                     nombre_propietario, hora_ingreso
                 )
 
-                # ✅ Pasar el objeto al método
+                # Pasar el objeto al método
                 if self.parqueadero.adicionar_parqueo(nuevo_parqueo):
                     print("\n Parqueo registrado exitosamente.")
                     print("===== DETALLE DEL PARQUEO =====")
@@ -249,7 +249,7 @@ class Menu:
                     print(f"Valor a Pagar: {p.valor_pagar}")
                 print(f"Estado: {p.estado}")
 
-        input("\nPresione ENTER para continuar...")
+        input()
     # >>> Visualizar Parqueo =====================================================================
     def visualizar_parqueo(self):
         system("cls")
@@ -276,7 +276,7 @@ class Menu:
         else:
             print("Error - No se encontró un parqueo con esa placa.")
 
-        input("\nPresione ENTER para continuar...")
+        input()
     # >>> Modificar Parqueo =====================================================================
     def modificar_parqueo(self):
         system("cls")
@@ -292,7 +292,7 @@ class Menu:
             print("Parqueo modificado con éxito.")
         else:
             print("Error: No se pudo modificar el parqueo.")
-        input("\nPresione ENTER para continuar...")
+        input()
 
 
     # >>> Eliminar Parqueo =====================================================================
@@ -306,7 +306,7 @@ class Menu:
             print("Parqueo eliminado con éxito.")
         else:
             print("Error: No se encontró un parqueo con ese ID.")
-        input("\nPresione ENTER para continuar...")
+        input()
 
 
 
@@ -394,8 +394,8 @@ class Menu:
                     print("**********************************************")
                     input()
 
-            except Exception as e:
-                print(f"Error - {e}")
+            except ValueError:
+                print(f"Error - Dato no valido")
                 input()
 
 if __name__ == '__main__':
