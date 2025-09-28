@@ -2,14 +2,13 @@
 from os import system
 from parqueadero import Parqueadero
 from propietario import Propietario
-from vehículo import Vehiculo
+from vehiculo import Vehiculo
 from datetime import datetime
 from parqueo import Parqueo
 # Crear la clase Menu
-class Menu: 
+class Menu:
     def __init__(self):
         self.parqueadero = Parqueadero()
-    # >>> Metodo Registrar Propietario ============================================================================
     # >>> Metodo Registrar Propietario ============================================================================
     def registrar_propietario(self):
         system("cls")
@@ -20,9 +19,7 @@ class Menu:
         nombre_propietario = str(input("Ingrese el nombre del propietario: "))
         telefono_propietario = str(input("Ingrese el teléfono del propietario: "))
         correo_propietario = str(input("Ingrese el correo del propietario: "))
-
         propietario = Propietario(id_propietario, nombre_propietario, telefono_propietario, correo_propietario)
-
         if self.parqueadero.adicionar_propietario(propietario):
             print("**********************************************************")
             print("Información - Propietario registrado satisfactoriamente")
@@ -31,8 +28,7 @@ class Menu:
             print("**********************************************************")
             print("Error - El propietario no fue adicionado. Verifique los datos.")
             print("**********************************************************")
-        input("\nPresione ENTER para continuar...")
-
+        input()
     # >>> Metodo Listar Propietarios ==============================================================================  
     def listar_propietario(self):
         system("cls")
@@ -47,8 +43,7 @@ class Menu:
             print("Telefono_propietario: %s" % (propietario.telefono_propietario))
             print("Correo_propietario: %s" % (propietario.correo_propietario))
             print("************************************************")
-        input("\nPresione ENTER para continuar...")
-
+        input()
     # >>> Metodo Visualizar Propietario ==============================================================================  
     def visualizar_propietario(self):
         system("cls")
@@ -56,15 +51,14 @@ class Menu:
         print("************* VISUALIZAR PROPIETARIO ************")
         print("*************************************************")
         codigo = input("Ingrese el ID del propietario: ")
-        pos = self.parqueadero.buscar_propietario(codigo)   # buscamos en Parqueadero
+        pos = self.parqueadero.buscar_propietario(codigo)
         if pos != -1:
-            propietario = self.parqueadero.propietarios[pos]   # obtenemos el objeto
-            propietario.visualizar_propietario()               # llamamos el método de la clase Propietario
+            propietario = self.parqueadero.propietarios[pos]   # <-- ojo, no lista_propietarios
+            propietario.visualizar_propietario()               # <-- usa el método de la clase Propietario
         else:
             print("Error - El propietario no existe.")
-        input("\nPresione ENTER para continuar...")
-
-        
+        input()
+    # >>> Metodo Modificar Propietario ==============================================================================
     def modificar_propietario(self):
         system("cls")
         print("*************************************************")
@@ -77,16 +71,14 @@ class Menu:
             nuevo_nombre = input("Nuevo nombre: ")
             nuevo_telefono = input("Nuevo teléfono (10 dígitos): ")
             nuevo_correo = input("Nuevo correo: ")
-
             if self.parqueadero.modificar_propietario(codigo, nuevo_nombre, nuevo_telefono, nuevo_correo):
                 print("Propietario modificado con éxito.")
             else:
                 print("Error - No se pudo modificar el propietario (validación fallida).")
         else:
             print("Error - El propietario no existe.")
-        input("\nPresione ENTER para continuar...")
-
-
+        input()
+# >>> Metodo Eliminar Propietario ==============================================================================
     def eliminar_propietario(self):
         system("cls")
         print("*************************************************")
@@ -97,7 +89,7 @@ class Menu:
             print("Propietario eliminado con éxito.")
         else:
             print("Error - El propietario no existe.")
-        input("\nPresione ENTER para continuar...")
+        input()
     # >>> Registrar Vehículo =====================================================================
     def registrar_vehiculo(self):
         system("cls")
@@ -108,21 +100,18 @@ class Menu:
         marca = input("Ingrese la marca del vehículo: ")
         modelo = input("Ingrese el modelo del vehículo: ")
         color = input("Ingrese el color del vehículo: ")
-        codigo_propietario = input("Ingrese el ID del propietario: ")
-
-        pos = self.parqueadero.buscar_propietario(codigo_propietario)
+        id_propietario = input("Ingrese el ID del propietario: ")
+        pos = self.parqueadero.buscar_propietario(id_propietario)
         if pos == -1:
             print("Error: No existe un propietario con ese ID.")
         else:
             nombre_propietario = self.parqueadero.propietarios[pos].nombre_propietario
-            vehiculo = Vehiculo(placa, marca, modelo, color, codigo_propietario, nombre_propietario)
+            vehiculo = Vehiculo(placa, marca, modelo, color, id_propietario, nombre_propietario)
             if self.parqueadero.adicionar_vehiculo(vehiculo):
                 print("Vehículo registrado con éxito.")
             else:
                 print("Error: No se pudo registrar el vehículo.")
-        input("\nPresione ENTER para continuar...")
-
-
+            input()
     # >>> Listar Vehículos =====================================================================
     def listar_vehiculos(self):
         system("cls")
@@ -130,26 +119,16 @@ class Menu:
         print("**************** LISTAR VEHÍCULOS ***************")
         print("*************************************************")
         self.parqueadero.listar_vehiculos()
-        input("\nPresione ENTER para continuar...")
-
-
+        input()
     # >>> Visualizar Vehículo =====================================================================
-    def visualizar_vehiculo(self): 
+    def visualizar_vehiculo(self):
         system("cls")
         print("*************************************************")
         print("************** VISUALIZAR VEHÍCULO **************")
         print("*************************************************")
         placa = input("Ingrese la placa del vehículo: ")
-        pos = self.parqueadero.buscar_vehiculo(placa)   # busca en la lista de vehículos
-        if pos != -1:
-            vehiculo = self.parqueadero.vehiculos[pos]  # obtiene el objeto vehículo
-            vehiculo.visualizar_vehiculo()              # llama el método de la clase Vehiculo
-        else:
-            print("Error - El vehículo no existe.")
-        input("\nPresione ENTER para continuar...")
-
-
-
+        self.parqueadero.visualizar_vehiculo(placa)
+        input()
     # >>> Modificar Vehículo =====================================================================
     def modificar_vehiculo(self):
         system("cls")
@@ -161,14 +140,11 @@ class Menu:
         nuevo_modelo = input("Nuevo modelo: ")
         nuevo_color = input("Nuevo color: ")
         nuevo_id_propietario = input("Nuevo ID del propietario: ")
-
         if self.parqueadero.modificar_vehiculo(placa, nueva_marca, nuevo_modelo, nuevo_color, nuevo_id_propietario):
             print("Vehículo modificado con éxito.")
         else:
             print("Error: No se pudo modificar el vehículo.")
-        input("\nPresione ENTER para continuar...")
-
-
+        input()
     # >>> Eliminar Vehículo =====================================================================
     def eliminar_vehiculo(self):
         system("cls")
@@ -180,133 +156,159 @@ class Menu:
             print("Vehículo eliminado con éxito.")
         else:
             print("Error: No se encontró el vehículo.")
-        input("\nPresione ENTER para continuar...")
+        input()
     # >>> Registrar Parqueo (Ingreso o Salida) =====================================================
-    def registrar_parqueo(self): 
+    def registrar_parqueo(self):
         system("cls")
         print("*************************************************")
         print("************** REGISTRAR PARQUEO ****************")
         print("*************************************************")
-
-        codigo_parqueo = input("Ingrese el ID del parqueo: ")
+        id_parqueo_raw = input("Ingrese el ID del parqueo: ")
+        try:
+            id_parqueo = int(id_parqueo_raw)
+            if id_parqueo < 0:
+                print("Error - El ID del parqueo no puede ser negativo.")
+                input("\nPresione Enter para continuar...")
+                return
+        except ValueError:
+            print("Error - El ID del parqueo debe ser numérico.")
+            input("\nPresione Enter para continuar...")
+            return
         opcion = input("Digite 1 para ENTRADA o 2 para SALIDA del vehículo: ")
-
         if opcion == "1":  # ENTRADA
             ahora = datetime.now()
-            fecha = ahora.date()        # Guardamos fecha como objeto date
-            hora_ingreso = ahora.time() # Guardamos hora como objeto time
+            fecha = str(ahora.date())
+            hora_ingreso = ahora.strftime("%H:%M:%S")
 
             placa = input("Ingrese la placa del vehículo: ")
             pos_vehiculo = self.parqueadero.buscar_vehiculo(placa)
 
             if pos_vehiculo == -1:
                 print("Error - El vehículo no existe. Primero debe registrarlo.")
+                input("\nPresione Enter para continuar...")
             else:
                 vehiculo = self.parqueadero.vehiculos[pos_vehiculo]
-                codigo_propietario = vehiculo.codigo_propietario
+                id_propietario = vehiculo.id_propietario
                 nombre_propietario = vehiculo.nombre_propietario
 
                 # Crear objeto Parqueo
                 nuevo_parqueo = Parqueo(
-                    codigo_parqueo, fecha, placa, vehiculo.marca,
-                    vehiculo.color, codigo_propietario,
+                    id_parqueo, fecha, placa, vehiculo.marca,
+                    vehiculo.color, id_propietario,
                     nombre_propietario, hora_ingreso
                 )
-
-                # Pasar el objeto al método
                 if self.parqueadero.adicionar_parqueo(nuevo_parqueo):
-                    print("\n Parqueo registrado exitosamente.")
-                    print("===== DETALLE DEL PARQUEO =====")
-                    print(f"ID Parqueo: {codigo_parqueo}")
-                    print(f"Fecha: {fecha}")
+                    # Mostrar comprobante de entrada
+                    print("\n===== ENTRADA REGISTRADA =====")
                     print(f"Placa: {placa}")
+                    print(f"Propietario: {nombre_propietario}")
                     print(f"Marca: {vehiculo.marca}")
                     print(f"Color: {vehiculo.color}")
-                    print(f"ID Propietario: {codigo_propietario}")
-                    print(f"Nombre Propietario: {nombre_propietario}")
-                    print(f"Hora Ingreso: {hora_ingreso}")  # objeto time
-                    print(f"Estado: Activo")
+                    print(f"Hora Ingreso: {hora_ingreso}")
+                    print("Estado: Parqueado")
                 else:
                     print("Error - No se pudo registrar el parqueo.")
-        
-        input("\nPresione ENTER para continuar...")
+                input("\nPresione Enter para continuar...")
+        elif opcion == "2":  # SALIDA
+            placa = input("Ingrese la placa del vehículo: ")
+            parqueo = self.parqueadero.buscar_parqueo_por_placa(placa)
+            if parqueo is None:
+                print("Error - No se encontró un parqueo activo con esa placa.")
+            else:
+                # Hora de salida
+                hora_salida = input("Ingrese la hora de salida (HH:MM:SS): ")
 
-
-
-
+                formato = "%H:%M:%S"
+                try:
+                    h_ingreso = datetime.strptime(parqueo.hora_ingreso, formato)
+                    h_salida = datetime.strptime(hora_salida, formato)
+                    if h_salida < h_ingreso:
+                        h_salida = h_salida.replace(day=h_ingreso.day + 1)
+                except ValueError:
+                    print("Error - La hora de salida no tiene un formato válido (HH:MM:SS).")
+                    input("\nPresione Enter para continuar...")
+                    return
+                tiempo = h_salida - h_ingreso
+                horas = tiempo.total_seconds() / 3600
+                horas_cobradas = int(horas) + (1 if horas % 1 > 0 else 0)  
+                valor_pagar = horas_cobradas * 2800
+                parqueo.hora_salida = hora_salida
+                parqueo.valor_pagar = valor_pagar
+                parqueo.estado = "Finalizado"
+                self.parqueadero.pagos.append(valor_pagar)
+                print("\n===== SALIDA REGISTRADA =====")
+                print(f"Placa: {parqueo.placa}")
+                print(f"Hora Ingreso: {parqueo.hora_ingreso}")
+                print(f"Hora Salida: {hora_salida}")
+                print(f"Horas cobradas: {horas_cobradas}")
+                print(f"Valor a Pagar: ${valor_pagar}")
+                print("Estado: Finalizado")
+                input("\nPresione Enter para continuar...")
+        else:
+            print("Error - Opción no válida. Debe ser 1 (Entrada) o 2 (Salida).")
+            input("\nPresione Enter para continuar...")
     # >>> Listar Parqueos =====================================================================
     def listar_parqueos(self):
         system("cls")
         print("*************************************************")
         print("**************** LISTAR PARQUEOS ****************")
         print("*************************************************")
-
         if not self.parqueadero.parqueos:
             print("No hay parqueos registrados.")
         else:
             for p in self.parqueadero.parqueos:
                 print("-----------------------------------")
-                print(f"ID Parqueo: {p.codigo_parqueo}")
+                print(f"ID Parqueo: {p.id_parqueo}")
                 print(f"Fecha: {p.fecha}")
                 print(f"Placa: {p.placa}")
                 print(f"Marca: {p.marca}")
                 print(f"Color: {p.color}")
-                print(f"ID Propietario: {p.codigo_propietario}")
+                print(f"ID Propietario: {p.id_propietario}")
                 print(f"Nombre Propietario: {p.nombre_propietario}")
                 print(f"Hora Ingreso: {p.hora_ingreso}")
                 if p.hora_salida:
                     print(f"Hora Salida: {p.hora_salida}")
                     print(f"Valor a Pagar: {p.valor_pagar}")
                 print(f"Estado: {p.estado}")
-
-        input("\nPresione ENTER para continuar...")
+        input()
     # >>> Visualizar Parqueo =====================================================================
     def visualizar_parqueo(self):
         system("cls")
         print("*************************************************")
-        print("************* VISUALIZAR PARQUEO ****************")
+        print("************ VISUALIZAR PARQUEO *****************")
         print("*************************************************")
-
         placa = input("Ingrese la placa del vehículo: ")
         parqueo = self.parqueadero.buscar_parqueo_por_placa(placa)
-
         if parqueo:
             print("===== DETALLE DEL PARQUEO =====")
-            print(f"ID Parqueo: {parqueo.codigo_parqueo}")
+            print(f"ID Parqueo: {parqueo.id_parqueo}")
             print(f"Fecha: {parqueo.fecha}")
             print(f"Placa: {parqueo.placa}")
             print(f"Marca: {parqueo.marca}")
             print(f"Color: {parqueo.color}")
-            print(f"ID Propietario: {parqueo.codigo_propietario}")
+            print(f"ID Propietario: {parqueo.id_propietario}")
             print(f"Nombre Propietario: {parqueo.nombre_propietario}")
             print(f"Hora Ingreso: {parqueo.hora_ingreso}")
-            if parqueo.hora_salida:  # si ya salió
-                print(f"Hora Salida: {parqueo.hora_salida}")
-                print(f"Valor a Pagar: {parqueo.valor_pagar}")
+            print(f"Hora Salida: {parqueo.hora_salida if parqueo.hora_salida else '---'}")
+            print(f"Valor a Pagar: {parqueo.valor_pagar if parqueo.valor_pagar else '---'}")
             print(f"Estado: {parqueo.estado}")
         else:
-            print("Error - No se encontró un parqueo activo para esa placa.")
-
-        input("\nPresione ENTER para continuar...")
-
-
+            print("Error - No se encontró un parqueo con esa placa.")
+        input()
     # >>> Modificar Parqueo =====================================================================
     def modificar_parqueo(self):
         system("cls")
         print("*************************************************")
         print("************** MODIFICAR PARQUEO ****************")
         print("*************************************************")
-        codigo_parqueo = input("Ingrese el ID del parqueo: ")
+        id_parqueo = input("Ingrese el ID del parqueo: ")
         nueva_placa = input("Nueva placa del vehículo: ")
-        nuevo_color = input("Nuevo color: ")
-        nuevo_codigo_propietario = input("Nuevo ID del propietario: ")
 
-        if self.parqueadero.modificar_parqueo(codigo_parqueo, nueva_placa, nuevo_color, nuevo_codigo_propietario):
+        if self.parqueadero.modificar_parqueo(id_parqueo, nueva_placa):
             print("Parqueo modificado con éxito.")
         else:
             print("Error: No se pudo modificar el parqueo.")
-        input("\nPresione ENTER para continuar...")
-
+        input()
 
     # >>> Eliminar Parqueo =====================================================================
     def eliminar_parqueo(self):
@@ -314,73 +316,57 @@ class Menu:
         print("*************************************************")
         print("************** ELIMINAR PARQUEO *****************")
         print("*************************************************")
-        codigo_parqueo = input("Ingrese el ID del parqueo: ")
-        if self.parqueadero.eliminar_parqueo(codigo_parqueo):
+        id_parqueo = input("Ingrese el ID del parqueo: ")
+        if self.parqueadero.eliminar_parqueo(id_parqueo):
             print("Parqueo eliminado con éxito.")
         else:
             print("Error: No se encontró un parqueo con ese ID.")
-        input("\nPresione ENTER para continuar...")
-        
-    def visualizar_espacios_ocupados(self):
-        system("cls")
-        print("*************************************************")
-        print("************ ESPACIOS OCUPADOS ******************")
-        print("*************************************************")
-
-        ocupados = self.parqueadero.espacios_totales - self.parqueadero.espacios_disponibles
-        print(f"Espacios ocupados: {ocupados}")
-
-        input("\nPresione ENTER para continuar...")
-
-    # >>> Reporte de vehículos parqueados
-    def generar_reporte_vehiculos_parqueados(self):
+        input()
+    # >>> Método Visualizar La Cantidad De Espacios Ocupados ========================================
+    def visualizar_cantidad_espacios_ocupados(self):
         system("cls")
         print("*********************************************")
-        print("***** REPORTE DE VEHÍCULOS PARQUEADOS *******")
+        print("**** VISUALIZAR CANTIDAD DE ESPACIOS OCUPADOS ****")
         print("*********************************************")
-
-        cantidad = self.parqueadero.reporte_vehiculos_parqueados()
-        print(f"Cantidad de vehículos parqueados: {cantidad}")
-
-        input("\nPresione ENTER para continuar...")
-
-
-    # >>> Reporte de espacios disponibles
-    def generar_reporte_espacios_disponibles(self):
+        cantidad = self.parqueadero.reporte_espacios_ocupados()
+        print(f"Cantidad de espacios ocupados: {cantidad}")
+        input("\nPresione Enter para continuar...")
+    # >>> Método Visualizar La Cantidad De Espacios Disponibles ========================================
+    def visualizar_cantidad_espacios_disponibles(self):
         system("cls")
         print("*********************************************")
-        print("****** REPORTE DE ESPACIOS DISPONIBLES ******")
+        print("**** VISUALIZAR CANTIDAD DE ESPACIOS DISPONIBLES ****")
         print("*********************************************")
-
         cantidad = self.parqueadero.reporte_espacios_disponibles()
-        print(f"Cantidad de espacios disponibles para parqueo: {cantidad}")
-
-        input("\nPresione ENTER para continuar...")
-
-    def visualizar_espacios_disponibles(self):
-        system("cls")
-        print("*************************************************")
-        print("******** ESPACIOS DISPONIBLES *******************")
-        print("*************************************************")
-
-        disponibles = self.parqueadero.visualizar_espacios_disponibles()
-        print(f"Cantidad de espacios disponibles: {disponibles}")
-
-        input("\nPresione ENTER para continuar...")
-
-
-    # >>> Reporte de pagos recibidos
-    def generar_reporte_pagos_recibidos(self):
+        print(f"Cantidad de espacios disponibles: {cantidad}")
+        input("\nPresione Enter para continuar...")
+    # >>> Método Reporte De Vehículos Parqueados =====================================================================
+    def reporte_vehiculos_parqueados(self):
         system("cls")
         print("*********************************************")
-        print("******* REPORTE DE PAGOS RECIBIDOS **********")
+        print("*** REPORTE DE CANTIDAD VEHÍCULOS PARQUEADOS ***")
         print("*********************************************")
-
-        total = self.parqueadero.reporte_ingresos()
+        cantidad = self.parqueadero.reporte_cantidad_vehiculos_parqueados()
+        print(f"Cantidad de vehículos parqueados: {cantidad}")
+        input("\nPresione Enter para continuar...")
+    # >>> Método Reporte De Espacios Disponibles =====================================================================
+    def reporte_espacios_disponibles(self):
+        system("cls")
+        print("*********************************************")
+        print("*** REPORTE DE ESPACIOS DISPONIBLES ***")
+        print("*********************************************")
+        disponibles = self.parqueadero.reporte_espacios_disponibles()
+        print(f"Espacios disponibles: {disponibles}")
+        input("\nPresione Enter para continuar...")
+    # >>> Método Reporte De Pagos Recibidos =====================================================================
+    def reporte_pagos(self):
+        system("cls")
+        print("*********************************************")
+        print("*** REPORTE DE PAGOS RECIBIDOS POR PARQUEO ***")
+        print("*********************************************")
+        total = self.parqueadero.reporte_pagos_recibidos()
         print(f"Total de pagos recibidos: ${total}")
-
-        input("\nPresione ENTER para continuar...")
-
+        input("\nPresione Enter para continuar...")
    # >>> Crear Metodo mostrar_menu que muestre el menu de la aplicacion y permita seleccionar una opcion
     def mostrar_menu(self):
         while True:
@@ -404,19 +390,17 @@ class Menu:
             print("******************** m. Visualizar parqueo                                   *******************************")
             print("******************** n. Modificar parqueo                                    *******************************")
             print("******************** o. Eliminar parqueo                                     *******************************")
-            print("******************** p. Visualizar cantidad de espacios ocupados             *******************************")
-            print("******************** q. Visualizar cantidad de espacios disponibles          *******************************")
+            print("******************** p. visualizar_espacios_disponibles                      *******************************")
+            print("******************** q. visualizar_vehiculos_parqueados                      *******************************")
             print("******************** r. Generar reporte de cantidad de vehículos parqueados  *******************************")
             print("******************** s. Generar reporte de espacios disponibles              *******************************")
             print("******************** t. Generar reporte de pagos recibidos por parqueo       *******************************")
             print("******************** u. Salir                                                *******************************")
             print("************************************************************************************************************")
-
             try:
                 print("**************************************************")
                 opcion = input("Seleccione la opción que desea: ").lower()
                 print("**************************************************")
-
                 if opcion == "a":
                     self.registrar_propietario()
                 elif opcion == "b":
@@ -448,15 +432,15 @@ class Menu:
                 elif opcion == "o":
                     self.eliminar_parqueo()
                 elif opcion == "p":
-                    self.visualizar_espacios_ocupados()
+                    self.visualizar_cantidad_espacios_ocupados()
                 elif opcion == "q":
-                    self.generar_reporte_espacios_disponibles()
+                    self.visualizar_cantidad_espacios_disponibles()
                 elif opcion == "r":
-                    self.generar_reporte_vehiculos_parqueados()
+                    self.reporte_vehiculos_parqueados()
                 elif opcion == "s":
-                    self.generar_reporte_espacios_disponibles()
+                    self.reporte_espacios_disponibles()
                 elif opcion == "t":
-                    self.generar_reporte_pagos_recibidos()
+                    self.reporte_pagos()
                 elif opcion == "u":
                     break
                 else:
@@ -464,11 +448,9 @@ class Menu:
                     print("Error - Opción no válida")
                     print("**********************************************")
                     input()
-
-            except Exception as e:
-                print(f"Error - {e}")
+            except ValueError:
+                print(f"Error - Dato no valido")
                 input()
-
 if __name__ == '__main__':
     menu = Menu()
     menu.mostrar_menu()        
